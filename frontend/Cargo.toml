@@ -1,0 +1,12 @@
+[package]
+name = "frontend"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rust-i18n = "4.2.4"
+tokio = { version = "1.51.1", features = ["macros", "rt-multi-thread"] }
+topcoat = { version = "0.10.0", default-features = false, features = ["asset", "discover", "font-fontsource", "icon-iconify", "router", "runtime", "serve", "tailwind", "ui", "view"] }
+
+[build-dependencies]
+topcoat = { version = "0.10.0", default-features = false, features = ["icon-iconify", "tailwind"] }

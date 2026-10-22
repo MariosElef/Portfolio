@@ -1,0 +1,7 @@
+target
+**/target
+.git
+.env
+.env.*
+certs
+node_modules

@@ -1,0 +1,19 @@
+{
+	auto_https off
+}
+
+https://localhost {
+	tls /certs/local.pem /certs/local-key.pem
+	reverse_proxy host.docker.internal:3000
+	handle_errors 502 {
+		respond "The frontend is not running. Start it: stackup start frontend" 502
+	}
+}
+
+https://api.localhost {
+	tls /certs/local.pem /certs/local-key.pem
+	reverse_proxy host.docker.internal:8000
+	handle_errors 502 {
+		respond "The backend is not running. Start it: stackup start backend" 502
+	}
+}

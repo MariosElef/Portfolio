@@ -1,0 +1,13 @@
+{
+	auto_https off
+}
+
+https://localhost {
+	tls /certs/local.pem /certs/local-key.pem
+	reverse_proxy frontend:3000
+}
+
+https://api.localhost {
+	tls /certs/local.pem /certs/local-key.pem
+	reverse_proxy backend:8000
+}
