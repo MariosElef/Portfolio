@@ -5,7 +5,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-app}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
       POSTGRES_DB: ${POSTGRES_DB:-app}
-    ports: ["5432:5432"]
+    ports: ["127.0.0.1:5432:5432"]
     volumes: [pgdata:/var/lib/postgresql]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
@@ -15,7 +15,7 @@ services:
 
   redis:
     image: redis:alpine
-    ports: ["6379:6379"]
+    ports: ["127.0.0.1:6379:6379"]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 3s
@@ -25,9 +25,10 @@ services:
   # A single-node replica set: change streams, which tell the backend about edits, need one.
   # The healthcheck initiates the set on first start.
   mongo:
-    image: mongo:8
+    # 8.3 refuses to start on Ubuntu's 7.0.14-based kernels (SERVER-136848); 8.2 runs there.
+    image: mongo:8.2
     command: ["--replSet", "rs0", "--bind_ip_all"]
-    ports: ["27017:27017"]
+    ports: ["127.0.0.1:27017:27017"]
     volumes: [mongodata:/data/db]
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "try { rs.status().ok } catch (e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'localhost:27017' }] }).ok }"]
@@ -57,7 +58,7 @@ services:
       NOTIFY_EMAIL: ${NOTIFY_EMAIL:-}
       CHALLENGE_SECRET: ${CHALLENGE_SECRET:-}
     volumes: [media:/data/media]
-    ports: ["8000:8000"]
+    ports: ["127.0.0.1:8000:8000"]
 
   frontend:
     build:
@@ -66,16 +67,28 @@ services:
     image: portfolio-frontend
     environment:
       API_URL: http://backend:8000
-    ports: ["3000:3000"]
+    ports: ["127.0.0.1:3000:3000"]
 
   caddy:
     image: caddy:alpine
-    ports: ["8443:443"]
+    environment:
+      SITE_HOST: ${SITE_HOST:-localhost}
+    ports: ["127.0.0.1:8443:443"]
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./certs:/certs:ro
       - media:/srv/media:ro
     depends_on: [frontend, backend]
+
+  # The public way in on the server: an outbound tunnel to Cloudflare, so no inbound port opens.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    profiles: ["tunnel"]
+    command: ["tunnel", "--no-autoupdate", "run"]
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on: [caddy]
+    restart: unless-stopped
 
   caddy-dev:
     image: caddy:alpine

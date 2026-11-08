@@ -1,8 +1,14 @@
 {
 	auto_https off
+	# Only cloudflared, on Docker's private network, reaches Caddy, so its CF-Connecting-IP is
+	# the visitor's address; without the header (local development) it is the peer's.
+	servers {
+		trusted_proxies static private_ranges
+		client_ip_headers CF-Connecting-IP
+	}
 }
 
-https://localhost {
+https://{$SITE_HOST} {
 	tls /certs/local.pem /certs/local-key.pem
 	# Uploaded media, named by content hash, so it can be cached forever.
 	handle_path /media/* {
@@ -11,15 +17,23 @@ https://localhost {
 		file_server
 	}
 	handle {
-		reverse_proxy frontend:3000
+		reverse_proxy frontend:3000 {
+			header_up X-Forwarded-For {client_ip}
+		}
 	}
 }
 
-https://api.localhost {
+https://www.{$SITE_HOST} {
+	tls /certs/local.pem /certs/local-key.pem
+	redir https://{$SITE_HOST}{uri} permanent
+}
+
+https://api.{$SITE_HOST} {
 	tls /certs/local.pem /certs/local-key.pem
 	# Only the frontend, calling from inside, may say who the visitor is; the rate limit
 	# trusts it, so a visitor's own copy is dropped.
 	reverse_proxy backend:8000 {
 		header_up -X-Client-IP
+		header_up X-Forwarded-For {client_ip}
 	}
 }
