@@ -17,3 +17,6 @@ dist/
 certs/*.pem
 # Volume backups (stackup backup-volume) hold real data.
 backups/
+
+# Uploaded media in development.
+data/

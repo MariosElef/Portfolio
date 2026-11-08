@@ -1,0 +1,155 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- Every project with its tools in order, and its cover and logo files.\nSELECT\n    projects.slug,\n    projects.initials,\n    projects.tone::text AS \"tone!\",\n    projects.name,\n    projects.summary,\n    coalesce((\n        SELECT array_agg(tools.name ORDER BY project_tools.sort, tools.name)\n        FROM project_tools\n        INNER JOIN tools ON project_tools.tool_id = tools.id\n        WHERE project_tools.project_slug = projects.slug\n    ), '{}') AS \"tags!\",\n    projects.repo,\n    projects.featured,\n    projects.availability::text AS \"availability!\",\n    cover.file_name AS \"cover_file?\",\n    cover.content_type AS \"cover_type?\",\n    logo.file_name AS \"logo_file?\",\n    logo.content_type AS \"logo_type?\"\nFROM projects\nLEFT JOIN media AS cover ON projects.cover_id = cover.id\nLEFT JOIN media AS logo ON projects.logo_id = logo.id\nORDER BY projects.sort, projects.name\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "slug",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "projects",
+            "name": "slug"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "initials",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "projects",
+            "name": "initials"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "tone!",
+        "type_info": "Text",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 3,
+        "name": "name",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "projects",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "summary",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "projects",
+            "name": "summary"
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "tags!",
+        "type_info": "TextArray",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 6,
+        "name": "repo",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "projects",
+            "name": "repo"
+          }
+        }
+      },
+      {
+        "ordinal": 7,
+        "name": "featured",
+        "type_info": "Bool",
+        "origin": {
+          "Table": {
+            "table": "projects",
+            "name": "featured"
+          }
+        }
+      },
+      {
+        "ordinal": 8,
+        "name": "availability!",
+        "type_info": "Text",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 9,
+        "name": "cover_file?",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "media",
+            "name": "file_name"
+          }
+        }
+      },
+      {
+        "ordinal": 10,
+        "name": "cover_type?",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "media",
+            "name": "content_type"
+          }
+        }
+      },
+      {
+        "ordinal": 11,
+        "name": "logo_file?",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "media",
+            "name": "file_name"
+          }
+        }
+      },
+      {
+        "ordinal": 12,
+        "name": "logo_type?",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "media",
+            "name": "content_type"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      null,
+      false,
+      false,
+      null,
+      true,
+      false,
+      null,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "75fec9daab07284578ab8152d6e163b31f7d9b4292a87b8a4338b50146f636b0"
+}

@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A message sent before the inbox moved here, keeping when it was sent.\nINSERT INTO messages (id, name, email, body, user_agent, created_at)\nVALUES ($1, $2, $3, $4, $5, $6)\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Timestamptz"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "e74e56f48ec8b36e7012384be232fdb12c0701dee28c4a4d7bdc63ecdc32a804"
+}

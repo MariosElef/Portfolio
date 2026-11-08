@@ -23,15 +23,20 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 FROM base AS backend-build
 
 COPY . .
+# sqlx macros read backend/.sqlx rather than a live database.
+ENV SQLX_OFFLINE=true
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/build/target \
     cargo build --release --locked -p portfolio-backend \
     && install -D target/release/portfolio-backend /out/portfolio-backend \
-    && strip /out/portfolio-backend
+    && strip /out/portfolio-backend \
+    && mkdir -p /out/media
 
 FROM gcr.io/distroless/cc-debian13:nonroot AS backend
 
 COPY --from=backend-build /out/portfolio-backend /usr/local/bin/portfolio-backend
+# The media volume takes this directory's owner when first created, so uploads can write to it.
+COPY --from=backend-build --chown=nonroot:nonroot /out/media /data/media
 
 USER nonroot:nonroot
 EXPOSE 8000

@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A stack category, unless there is one by that name.\nINSERT INTO tool_categories (name, note, sort)\nVALUES ($1, $2, $3)\nON CONFLICT (name) DO NOTHING\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "eec88e3a0762b9f8fb5823fd90dab85db55dcafde0ac95e0ad8aa2c5a7470995"
+}

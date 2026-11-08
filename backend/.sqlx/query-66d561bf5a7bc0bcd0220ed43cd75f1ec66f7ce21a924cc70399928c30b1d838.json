@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A role already there gains a logo it is missing.\nUPDATE experience\nSET logo_id = (SELECT media.id FROM media WHERE media.file_name = $2)\nWHERE experience.slug = $1 AND experience.logo_id IS NULL\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "66d561bf5a7bc0bcd0220ed43cd75f1ec66f7ce21a924cc70399928c30b1d838"
+}

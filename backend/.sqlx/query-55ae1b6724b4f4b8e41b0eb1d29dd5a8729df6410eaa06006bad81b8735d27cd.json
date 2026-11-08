@@ -1,0 +1,38 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- Media is linked by file name: NULL when there is no such file.\nINSERT INTO projects (\n    slug, initials, tone, name, summary, repo, featured, sort, availability, logo_id, cover_id\n)\nVALUES (\n    $1,\n    $2,\n    $3::text::tone,\n    $4,\n    $5,\n    $6,\n    $7,\n    $8,\n    $9::text::availability,\n    (SELECT media.id FROM media WHERE media.file_name = $10),\n    (SELECT media.id FROM media WHERE media.file_name = $11)\n)\nON CONFLICT (slug) DO NOTHING\nRETURNING projects.slug\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "slug",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "projects",
+            "name": "slug"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Bool",
+        "Int4",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "55ae1b6724b4f4b8e41b0eb1d29dd5a8729df6410eaa06006bad81b8735d27cd"
+}

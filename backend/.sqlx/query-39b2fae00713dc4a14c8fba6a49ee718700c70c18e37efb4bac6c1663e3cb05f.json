@@ -1,0 +1,39 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A role in the work history, unless there is one with that slug; its logo by file name.\nINSERT INTO experience (\n    slug, sort, year, role, company, period, summary, color, accent, logo_id, did, learned\n)\nVALUES (\n    $1,\n    $2,\n    $3,\n    $4,\n    $5,\n    $6,\n    $7,\n    $8,\n    $9,\n    (SELECT media.id FROM media WHERE media.file_name = $10),\n    $11,\n    $12\n)\nON CONFLICT (slug) DO NOTHING\nRETURNING experience.id\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "id"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Int4",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "TextArray",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "39b2fae00713dc4a14c8fba6a49ee718700c70c18e37efb4bac6c1663e3cb05f"
+}

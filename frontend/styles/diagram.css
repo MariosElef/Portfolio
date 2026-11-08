@@ -1,0 +1,40 @@
+/* What a diagram looks like at rest. Its motion, the build-up and the light of requests
+   (or a pipeline's runs), is CSS each diagram writes for itself, planned in Rust as it
+   renders (components/diagram/motion.rs). Without it, everything simply shows. */
+
+/* A line's drawing-out is a copy that only shows while it animates; at rest, the line
+   itself shows. */
+[data-edge] .edge-draw {
+  display: none;
+  stroke-dasharray: 1;
+}
+
+/* The current along a line (its length set to 1): a single streak `--streak` long, with
+   a gap longer than the line, waiting just before the start. */
+.edge-current {
+  stroke-dasharray: var(--streak) 2;
+  stroke-dashoffset: var(--streak);
+}
+
+/* A step's cross shows only while a run has failed there. */
+[data-step] .step-fail {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-edge] .edge-draw {
+    display: inline;
+  }
+
+  /* A step's check waits for a run to pass it. */
+  [data-pipeline] [data-step] .step-pass {
+    opacity: 0;
+  }
+}
+
+/* Without motion, there is no current: just the lines. */
+@media (prefers-reduced-motion: reduce) {
+  .edge-current {
+    display: none;
+  }
+}

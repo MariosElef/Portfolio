@@ -1,0 +1,148 @@
+/* The fonts and colour palettes: Tailwind's theme. */
+@theme static {
+  --font-sans: "Varela Round", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+    --color-ink-50: #fafafa;
+  --color-ink-100: #f5f5f5;
+  --color-ink-200: #ededed;
+  --color-ink-300: #d1d1d1;
+  --color-ink-400: #9a9a9a;
+  --color-ink-500: #5a5a5a;
+  --color-ink-600: #3a3a3a;
+  --color-ink-700: #303030;
+  --color-ink-800: #222222;
+  --color-ink-900: #1b1b1b;
+  --color-ink-950: #111111;
+
+    --color-brand-50: #eef7ff;
+  --color-brand-100: #dfefff;
+  --color-brand-200: #c1e1ff;
+  --color-brand-300: #9fd0ff;
+  --color-brand-400: #5eb1ff;
+  --color-brand-500: #0080f0;
+  --color-brand-600: #076cc7;
+  --color-brand-700: #0c58a0;
+  --color-brand-800: #0e457b;
+  --color-brand-900: #0f3358;
+  --color-brand-950: #0e2a47;
+
+    --color-mint-50: #ebfaf1;
+  --color-mint-100: #d9f5e6;
+  --color-mint-200: #b5eccf;
+  --color-mint-300: #88e0b5;
+  --color-mint-400: #4bd49b;
+  --color-mint-500: #3eb485;
+  --color-mint-600: #32956f;
+  --color-mint-700: #277759;
+  --color-mint-800: #1d5b44;
+  --color-mint-900: #134030;
+  --color-mint-950: #0f3326;
+
+    --color-plum-50: #f8f3ff;
+  --color-plum-100: #f3e8ff;
+  --color-plum-200: #e9d5ff;
+  --color-plum-300: #cbb7e4;
+  --color-plum-400: #ae9aca;
+  --color-plum-500: #917eb1;
+  --color-plum-600: #756398;
+  --color-plum-700: #5b497f;
+  --color-plum-800: #412f67;
+  --color-plum-900: #2a1650;
+  --color-plum-950: #1a1035;
+
+
+  /* The home hero. Its timing (--hero-cycle, --hero-ease, --hero-lines) lives on the
+     hero itself, so each element names its animation in full (components/hero); a
+     variable here would be resolved at the root, where that timing does not exist.
+     These entries only keep the keyframes below in Tailwind's output. The bar under
+     the current tab fills once per slide (8s, as components/hero/timing.rs). */
+  --animate-hero-shift: hero-shift 32s infinite;
+  --animate-hero-show: hero-show 32s infinite both;
+  --animate-hero-enter: hero-enter 32s infinite both;
+  --animate-hero-arrive: hero-arrive 500ms cubic-bezier(0, 0, 0.2, 1) both;
+  --animate-hero-type: hero-type 32s infinite both;
+  --animate-hero-caret: hero-caret 32s infinite both;
+  --animate-hero-progress: hero-progress 32s infinite both;
+  --animate-hero-tab: hero-tab 32s infinite both;
+
+  @keyframes hero-shift {
+    to {
+      translate: var(--hero-to) 0;
+    }
+  }
+
+  @keyframes hero-show {
+    from {
+      opacity: 0;
+      visibility: hidden;
+    }
+    to {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @keyframes hero-enter {
+    from {
+      opacity: 0;
+      translate: 4rem 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  /* The same arrival, played once when a slide is chosen: a new name, so it starts over. */
+  @keyframes hero-arrive {
+    from {
+      opacity: 0;
+      translate: 4rem 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  /* A slide's code typing out, a line at a time, and the cursor while it does. */
+  @keyframes hero-type {
+    from {
+      width: 0;
+    }
+    to {
+      width: var(--w);
+    }
+  }
+
+  @keyframes hero-caret {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* A tab on its slide's turn: white, its words dark. */
+  @keyframes hero-tab {
+    from {
+      background-color: rgb(0 0 0 / 0.45);
+      color: #fff;
+    }
+    to {
+      background-color: #fff;
+      color: var(--color-ink-950);
+    }
+  }
+
+  @keyframes hero-progress {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+}

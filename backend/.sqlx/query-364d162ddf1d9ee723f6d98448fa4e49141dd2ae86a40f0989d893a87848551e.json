@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A project already there gains a logo or cover it is missing.\nUPDATE projects\nSET\n    logo_id = coalesce(projects.logo_id, (SELECT media.id FROM media WHERE media.file_name = $2)),\n    cover_id = coalesce(projects.cover_id, (SELECT media.id FROM media WHERE media.file_name = $3))\nWHERE projects.slug = $1 AND (projects.logo_id IS NULL OR projects.cover_id IS NULL)\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "364d162ddf1d9ee723f6d98448fa4e49141dd2ae86a40f0989d893a87848551e"
+}

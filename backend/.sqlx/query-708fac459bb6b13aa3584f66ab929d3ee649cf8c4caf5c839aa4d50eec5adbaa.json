@@ -1,0 +1,62 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- The tools listed in the stack: those with a category, in its order.\nSELECT\n    tool_categories.name AS category,\n    tool_categories.note AS category_note,\n    tools.name,\n    tools.icon\nFROM tools\nINNER JOIN tool_categories ON tools.category_id = tool_categories.id\nORDER BY tool_categories.sort, tool_categories.name, tools.sort, tools.name\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "category",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tool_categories",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "category_note",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tool_categories",
+            "name": "note"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "name",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tools",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "icon",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tools",
+            "name": "icon"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "708fac459bb6b13aa3584f66ab929d3ee649cf8c4caf5c839aa4d50eec5adbaa"
+}

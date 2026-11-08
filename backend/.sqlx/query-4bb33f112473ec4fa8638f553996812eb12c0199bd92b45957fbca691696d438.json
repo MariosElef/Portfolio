@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A tool used in a role, by the tool's name, at its place in the list.\nINSERT INTO experience_tools (experience_id, tool_id, sort)\nSELECT\n    $1::int AS experience_id,\n    tools.id AS tool_id,\n    $3::int AS sort\nFROM tools\nWHERE tools.name = $2::text\nON CONFLICT DO NOTHING\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "4bb33f112473ec4fa8638f553996812eb12c0199bd92b45957fbca691696d438"
+}

@@ -1,0 +1,153 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- The work history with each role's logo and tools, newest first.\nSELECT\n    experience.year,\n    experience.role,\n    experience.company,\n    experience.period,\n    experience.summary,\n    experience.color,\n    experience.accent,\n    media.file_name AS \"logo_file?\",\n    media.content_type AS \"logo_type?\",\n    experience.did,\n    experience.learned,\n    coalesce((\n        SELECT array_agg(tools.name ORDER BY experience_tools.sort, tools.name)\n        FROM experience_tools\n        INNER JOIN tools ON experience_tools.tool_id = tools.id\n        WHERE experience_tools.experience_id = experience.id\n    ), '{}') AS \"tags!\"\nFROM experience\nLEFT JOIN media ON experience.logo_id = media.id\nORDER BY experience.sort, experience.id\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "year",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "year"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "role",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "role"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "company",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "company"
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "period",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "period"
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "summary",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "summary"
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "color",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "color"
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "accent",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "accent"
+          }
+        }
+      },
+      {
+        "ordinal": 7,
+        "name": "logo_file?",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "media",
+            "name": "file_name"
+          }
+        }
+      },
+      {
+        "ordinal": 8,
+        "name": "logo_type?",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "media",
+            "name": "content_type"
+          }
+        }
+      },
+      {
+        "ordinal": 9,
+        "name": "did",
+        "type_info": "TextArray",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "did"
+          }
+        }
+      },
+      {
+        "ordinal": 10,
+        "name": "learned",
+        "type_info": "TextArray",
+        "origin": {
+          "Table": {
+            "table": "experience",
+            "name": "learned"
+          }
+        }
+      },
+      {
+        "ordinal": 11,
+        "name": "tags!",
+        "type_info": "TextArray",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "af363aafd9c2d726bbc1b7c0dc5c2a2f68d29845b2db40467863d4d0c9f3b8df"
+}

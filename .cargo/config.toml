@@ -1,0 +1,6 @@
+# sqlx's macros check each query in backend/src/repositories/postgres/sql against the committed
+# backend/.sqlx, as the image build and ci.sh do, so the editor and a plain cargo need no
+# database. After changing a query or the schema, with Postgres running:
+#   cd backend && cargo sqlx prepare -- --all-targets
+[env]
+SQLX_OFFLINE = "true"

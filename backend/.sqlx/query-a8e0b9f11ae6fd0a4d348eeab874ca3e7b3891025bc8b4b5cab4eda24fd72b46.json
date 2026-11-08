@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A file found in the media folder, unless it is already known.\nINSERT INTO media (id, file_name, content_type, size_bytes)\nVALUES ($1, $2, $3, $4)\nON CONFLICT (file_name) DO NOTHING\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Int8"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "a8e0b9f11ae6fd0a4d348eeab874ca3e7b3891025bc8b4b5cab4eda24fd72b46"
+}

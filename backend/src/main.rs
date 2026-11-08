@@ -1,10 +1,18 @@
-use axum::{Json, Router, routing::get};
-use serde_json::{Value, json};
 use tracing_subscriber::EnvFilter;
 
-async fn health() -> Json<Value> {
-    Json(json!({ "status": "ok" }))
-}
+mod checks;
+mod clients;
+mod config;
+mod jobs;
+mod middleware;
+mod models;
+mod repositories;
+mod routes;
+mod seeds;
+mod services;
+mod startup;
+mod state;
+mod upgrades;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -13,17 +21,15 @@ async fn main() -> anyhow::Result<()> {
         .with_env_filter(EnvFilter::try_from_default_env().unwrap_or_else(|_| "info".into()))
         .init();
 
-    // The database, brought up to date before anything is served: each file in migrations/,
-    // compiled in, is applied once.
-    let database_url = std::env::var("DATABASE_URL")?;
-    let pool = sqlx::PgPool::connect(&database_url).await?;
-    sqlx::migrate!().run(&pool).await?;
+    let config = config::Config::from_env()?;
+    let addr = config.bind_addr.clone();
+    let state = startup::state(config).await?;
 
-    let addr = std::env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:8000".into());
     let listener = tokio::net::TcpListener::bind(&addr).await?;
     tracing::info!(%addr, "listening");
 
-    let app = Router::new().route("/health", get(health));
+    // With each connection's address, the rate limit's last resort for telling visitors apart.
+    let app = routes::router(state).into_make_service_with_connect_info::<std::net::SocketAddr>();
     axum::serve(listener, app)
         .with_graceful_shutdown(async {
             let _ = tokio::signal::ctrl_c().await;

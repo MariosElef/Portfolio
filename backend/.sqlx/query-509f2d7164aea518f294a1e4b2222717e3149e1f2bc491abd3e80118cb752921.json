@@ -1,0 +1,31 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- The same bytes uploaded twice keep their first id, since the file name is their hash.\nINSERT INTO media (id, file_name, content_type, size_bytes)\nVALUES ($1, $2, $3, $4)\nON CONFLICT (file_name) DO UPDATE SET content_type = excluded.content_type\nRETURNING media.id\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "media",
+            "name": "id"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "509f2d7164aea518f294a1e4b2222717e3149e1f2bc491abd3e80118cb752921"
+}

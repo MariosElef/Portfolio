@@ -1,2 +1,98 @@
 _version: 1
-welcome: It works
+nav:
+  label: Main
+  home: Marios Elef, home
+  home_link: Home
+  projects: Projects
+  about: About
+  contact: Contact
+footer:
+  explore: Explore
+  home: Home
+  elsewhere: Elsewhere
+  github: GitHub
+  linkedin: LinkedIn
+  this_site: This site
+  source: Source code
+  built_with: Built with Rust
+  top: Back to top
+hero:
+  pause: Pause slideshow
+  slides: Highlights
+home:
+  featured: Featured
+  github: GitHub
+  stack: What I work with
+projects:
+  title: Projects
+  view: View
+  details: Details
+  open: Open
+  coming_soon: Coming soon
+  private: Private
+  on_github: "%{name} on GitHub"
+  all: All projects
+  source: Source
+about:
+  title: About me
+skills:
+  title: Stack experience
+  level: "%{level} out of 5"
+experience:
+  title: Experience
+  read_more: Read more
+  did: What I did
+  learned: What I learned
+contact:
+  title: Contact
+  available: Open to new work
+  form_title: Send a message
+  form_hint: Ask about a project, a role, or just say hello.
+  privacy: Your email is only used to reply to you.
+  heading: Let's build something together.
+  elsewhere: Or find me on
+  github: GitHub
+  linkedin: LinkedIn
+  sent_title: Message sent
+  name: Name
+  name_placeholder: Your name
+  email: Email
+  email_placeholder: you@example.com
+  message: Message
+  message_placeholder: Say hello
+  send: Send message
+  sent: Thanks — your message is on its way.
+  invalid: Check your email address and message, then try again.
+  failed: Something went wrong. Please try again later.
+  puzzle: "Quick check: what is %{a} + %{b}?"
+  needs_answer: "One last step: answer the quick check to send your message."
+  unanswered: That answer wasn't right, so here's a new question. Your message is still here.
+  limited: That's a lot of messages in a short while. Please wait a few minutes and try again.
+activity:
+  title: The year on GitHub
+  total: Contributions in the last year
+  active_days: Active days
+  streak: Longest streak
+  days: "%{count} days"
+  busiest: Busiest day
+  busiest_value: "%{count} on %{day} %{month}"
+  day: "%{count} contributions on %{date}"
+  profile: View on GitHub
+  less: Less
+  more: More
+calendar:
+  month_1: Jan
+  month_2: Feb
+  month_3: Mar
+  month_4: Apr
+  month_5: May
+  month_6: Jun
+  month_7: Jul
+  month_8: Aug
+  month_9: Sep
+  month_10: Oct
+  month_11: Nov
+  month_12: Dec
+  mon: Mon
+  wed: Wed
+  fri: Fri

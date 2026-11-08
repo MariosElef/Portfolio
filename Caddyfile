@@ -4,10 +4,22 @@
 
 https://localhost {
 	tls /certs/local.pem /certs/local-key.pem
-	reverse_proxy frontend:3000
+	# Uploaded media, named by content hash, so it can be cached forever.
+	handle_path /media/* {
+		root * /srv/media
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+	handle {
+		reverse_proxy frontend:3000
+	}
 }
 
 https://api.localhost {
 	tls /certs/local.pem /certs/local-key.pem
-	reverse_proxy backend:8000
+	# Only the frontend, calling from inside, may say who the visitor is; the rate limit
+	# trusts it, so a visitor's own copy is dropped.
+	reverse_proxy backend:8000 {
+		header_up -X-Client-IP
+	}
 }

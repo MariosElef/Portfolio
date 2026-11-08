@@ -22,12 +22,15 @@ services:
       timeout: 3s
       retries: 20
 
+  # A single-node replica set: change streams, which tell the backend about edits, need one.
+  # The healthcheck initiates the set on first start.
   mongo:
     image: mongo:8
+    command: ["--replSet", "rs0", "--bind_ip_all"]
     ports: ["27017:27017"]
     volumes: [mongodata:/data/db]
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--quiet", "--eval", "try { rs.status().ok } catch (e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'localhost:27017' }] }).ok }"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -45,7 +48,15 @@ services:
       BIND_ADDR: 0.0.0.0:8000
       DATABASE_URL: postgres://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-app}
       REDIS_URL: redis://redis:6379
-      MONGODB_URL: mongodb://mongo:27017
+      MONGODB_URL: mongodb://mongo:27017/portfolio?directConnection=true
+      MEDIA_DIR: /data/media
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+      GITHUB_USER: ${GITHUB_USER:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      NOTIFY_EMAIL: ${NOTIFY_EMAIL:-}
+      CHALLENGE_SECRET: ${CHALLENGE_SECRET:-}
+    volumes: [media:/data/media]
     ports: ["8000:8000"]
 
   frontend:
@@ -63,6 +74,7 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./certs:/certs:ro
+      - media:/srv/media:ro
     depends_on: [frontend, backend]
 
   caddy-dev:
@@ -73,7 +85,9 @@ services:
     volumes:
       - ./Caddyfile.dev:/etc/caddy/Caddyfile:ro
       - ./certs:/certs:ro
+      - ./data/media:/srv/media:ro
 
 volumes:
   pgdata:
   mongodata:
+  media:

@@ -1,6 +1,11 @@
 mod app;
 mod components;
+mod composables;
 mod features;
+mod middleware;
+mod services;
+mod types;
+mod utils;
 
 rust_i18n::i18n!("locales", fallback = "en");
 

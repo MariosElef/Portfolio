@@ -2,6 +2,7 @@ use topcoat::view::{StaticClass, class};
 
 /// One of the seven colours a component's `color` prop can name.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+// The design system offers every variant, whether the site uses it yet or not.
 #[allow(dead_code)]
 pub enum Color {
     Primary,

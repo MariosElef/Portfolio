@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A tool under its category by name, unless there is one by that name.\nINSERT INTO tools (name, icon, category_id, sort)\nVALUES (\n    $1,\n    $2,\n    (SELECT tool_categories.id FROM tool_categories WHERE tool_categories.name = $3),\n    $4\n)\nON CONFLICT (name) DO NOTHING\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "879bc3cf5975abb8e5bc3da1db46eb8fb6de8c81649e9519bc1b98b5fa5b6a92"
+}

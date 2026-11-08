@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- A tool a project uses, by the tool's name, at its place in the list.\nINSERT INTO project_tools (project_slug, tool_id, sort)\nSELECT\n    $1::text AS project_slug,\n    tools.id AS tool_id,\n    $3::int AS sort\nFROM tools\nWHERE tools.name = $2::text\nON CONFLICT DO NOTHING\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3afd2afd45069cddd0d0137d05de09ac2f50e577021b9bfeaa8c981b3ea9225d"
+}

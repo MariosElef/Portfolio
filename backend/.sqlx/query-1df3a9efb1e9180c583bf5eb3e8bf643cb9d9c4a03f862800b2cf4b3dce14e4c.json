@@ -1,0 +1,50 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- Every skill under its area, in order.\nSELECT\n    skill_areas.name AS area,\n    skills.name,\n    skills.level\nFROM skills\nINNER JOIN skill_areas ON skills.area_id = skill_areas.id\nORDER BY skill_areas.sort, skill_areas.name, skills.sort, skills.name\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "area",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "skill_areas",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "skills",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "level",
+        "type_info": "Int2",
+        "origin": {
+          "Table": {
+            "table": "skills",
+            "name": "level"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "1df3a9efb1e9180c583bf5eb3e8bf643cb9d9c4a03f862800b2cf4b3dce14e4c"
+}

@@ -1,0 +1,19 @@
+/* A long page's parts rise in as they scroll into view, driven by the scroll itself:
+   no script. Browsers without scroll-driven animations, and visitors who prefer less
+   motion, simply see everything. */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+/* `tone-*`: one colour's tokens under shared names, for a component's `color` prop. */
+@utility tone-primary {
+  --tone: var(--primary);
+  --tone-foreground: var(--primary-foreground);
+  --tone-emphasis: var(--primary-emphasis);
+}
+
+@utility tone-secondary {
+  --tone: var(--secondary);
+  --tone-foreground: var(--secondary-foreground);
+  --tone-emphasis: var(--secondary-emphasis);
+}
+
+@utility tone-success {
+  --tone: var(--success);
+  --tone-foreground: var(--success-foreground);
+  --tone-emphasis: var(--success-emphasis);
+}
+
+@utility tone-info {
+  --tone: var(--info);
+  --tone-foreground: var(--info-foreground);
+  --tone-emphasis: var(--info-emphasis);
+}
+
+@utility tone-warning {
+  --tone: var(--warning);
+  --tone-foreground: var(--warning-foreground);
+  --tone-emphasis: var(--warning-emphasis);
+}
+
+@utility tone-error {
+  --tone: var(--error);
+  --tone-foreground: var(--error-foreground);
+  --tone-emphasis: var(--error-emphasis);
+}
+
+@utility tone-neutral {
+  --tone: var(--neutral);
+  --tone-foreground: var(--neutral-foreground);
+  --tone-emphasis: var(--neutral-emphasis);
+}

@@ -1,0 +1,16 @@
+[sqruff]
+dialect = postgres
+max_line_length = 100
+# AL07 sits outside the core set, so it is named as well as forced on below.
+rules = core,AL07
+
+# Comments are prose, which no formatter can rewrap.
+[sqruff:rules:layout.long_lines]
+ignore_comment_lines = True
+
+[sqruff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+# Columns are qualified by the table's own name, plan_prices.id: initials collide and say nothing.
+[sqruff:rules:aliasing.forbid]
+force_enable = true
